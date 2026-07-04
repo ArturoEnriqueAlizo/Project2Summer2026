@@ -17,6 +17,8 @@ double calculateScore(Movie movie, vector<string> favoriteGenres);
 // Returns only the recommended movies
 vector<Movie> getRecommendations(vector<Movie> movies, vector<string> favoriteGenres);
 
+vector<Movie> getLeavingSoonMovies(vector<Movie> movies);
+
 // Sorts the recommended movies using Heap Sort
 void heapSort(vector<Movie>& movies);
 

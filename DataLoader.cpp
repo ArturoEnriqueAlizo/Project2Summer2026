@@ -27,18 +27,34 @@ vector<Movie> loadMovies(string moviesFile, string ratingsFile)
         stringstream ss(line);
 
         string movieIdText;
-        string title;
-        string genres;
+        string rest;
 
         getline(ss, movieIdText, ',');
-        getline(ss, title, ',');
-        getline(ss, genres, ',');
+        getline(ss, rest);
 
         Movie movie;
 
         movie.movieId = stoi(movieIdText);
-        movie.title = title;
-        movie.genres = genres;
+
+        int lastComma = rest.find_last_of(',');
+
+        if (lastComma == -1)
+        {
+            continue;
+        }
+
+        movie.title = rest.substr(0, lastComma);
+        movie.genres = rest.substr(lastComma + 1);
+
+        if (movie.title[0] == '"')
+        {
+            movie.title.erase(0, 1);
+        }
+
+        if (movie.title[movie.title.size() - 1] == '"')
+        {
+            movie.title.erase(movie.title.size() - 1, 1);
+        }
         movie.averageRating = 0;
         movie.daysUntilExpiration = 0;
         movie.recommendationScore = 0;
