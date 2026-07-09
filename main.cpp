@@ -65,7 +65,7 @@ int main()
 
     vector<Movie> leavingSoon;
 
-    leavingSoon = getLeavingSoonMovies(movies);
+    leavingSoon = getLeavingSoonMovies(recommendations);
 
     cout << endl;
     cout << "Movies Leaving Soon" << endl;
