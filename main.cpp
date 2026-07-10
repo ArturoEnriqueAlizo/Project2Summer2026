@@ -1,10 +1,44 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
 #include "Movie.h"
 #include "DataLoader.h"
 #include "Recommendation.h"
 
+
+Movie searchinForAFilm(vector<Movie>& movies, string searchTitle) {
+    if (movies.empty()) {
+        Movie temp;
+        temp.title = "FAIL";
+        return temp;
+    }
+
+    if (movies[0].title == searchTitle) {
+        return movies[0];
+    }
+    if (movies.size() == 1 && movies[0].title != searchTitle) {
+        Movie temp;
+        temp.title = "FAIL";
+        return temp;
+    }
+    int merginsearch = movies.size()/2;
+    vector <Movie> filmleft(movies.begin(), movies.begin() + merginsearch);
+    vector <Movie> filmright(movies.begin() + merginsearch, movies.end());
+
+    Movie leftsearch = searchinForAFilm(filmleft, searchTitle);
+    if (leftsearch.title !="FAIL") {
+        return leftsearch;
+    }
+    Movie rightsearch = searchinForAFilm(filmright, searchTitle);
+    if (rightsearch.title !="FAIL") {
+        return rightsearch;
+    }
+    Movie temp;
+    temp.title = "FAIL";
+    return temp;
+
+}
 using namespace std;
 
 int main()
@@ -28,10 +62,17 @@ int main()
 
     string genre;
 
-    cout << "Enter your favorite genre: ";
-    cin >> genre;
+    cout << "Enter your favorite genre(s) (use space to separate genres): ";
+    getline(cin,genre);
 
-    favoriteGenres.push_back(genre);
+    stringstream stringy(genre);
+    string gene;
+
+    while (getline(stringy,gene,' ')) {
+        favoriteGenres.push_back(gene);
+    }
+
+
 
     vector<Movie> recommendations;
 
@@ -98,15 +139,28 @@ int main()
 
     string movieTitle;
     string answer;
-    while (movieTitle == "") {
+    while (answer != "N") {
         cout << "Search for a film? (Y/N)";
         cin >> answer;
         if (answer == "Y") {
-            cout<<"Enter a movie title to search: "<<endl;
-            cin>>movieTitle;
+            cin.ignore();
+            cout<<"Enter a movie title to search: (Please use the format: Title (year))"<<endl;
+            getline(cin,movieTitle);
+
+            Movie todd = searchinForAFilm(movies, movieTitle);
+            if (todd.title =="FAIL") {
+                cout<<"Sorry! We couldn't find that movie! :("<<endl;
+            }
+            else {
+                cout << "Genres: " << todd.genres << endl;
+                cout << "Rating: " << todd.averageRating << endl;
+                cout << "Days Until Expiration: " << todd.daysUntilExpiration << endl;
+                cout << "Recommendation Score: " << todd.recommendationScore << endl;
+                cout << endl;
+            }
         }
         else {
-            cout<<"Understood! Hope you liked these reccomendations! :)"<<endl;
+            cout<<"Understood! Hope you liked these recommendations! :)"<<endl;
             break;
         }
     }

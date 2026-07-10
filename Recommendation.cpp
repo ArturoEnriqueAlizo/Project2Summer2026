@@ -12,22 +12,20 @@ bool genreMatches(Movie movie, vector<string> favoriteGenres)
         genres[i] = tolower(genres[i]);
     }
 
-    for (int i = 0; i < favoriteGenres.size(); i++)
+    for (string genre : favoriteGenres)
     {
-        string genre = favoriteGenres[i];
-
         for (int j = 0; j < genre.size(); j++)
         {
             genre[j] = tolower(genre[j]);
         }
 
-        if (genres.find(genre) != -1)
+        if (genres.find(genre) == -1)
         {
-            return true;
+            return false;
         }
     }
 
-    return false;
+    return true;
 }
 
 int getExpirationBonus(Movie movie)
@@ -200,23 +198,3 @@ vector<Movie> mergeSort(vector<Movie>& movies) {
 
 
 
-Movie* searchinForAFilm(vector<Movie>& movies, string searchTitle) {
-    if (movies.empty()) {
-        return nullptr;
-    }
-    if (movies[0].title == searchTitle) {
-        return &movies[0];
-    }
-    int merginsearch = movies.size()/2;
-    vector <Movie> filmleft(movies.begin(), movies.begin() + merginsearch);
-    vector <Movie> filmright(movies.begin() + merginsearch, movies.end());
-
-    Movie* leftsearch = searchinForAFilm(filmleft, searchTitle);
-    if (leftsearch!=nullptr) {
-        return leftsearch;
-    }
-    Movie* rightsearch = searchinForAFilm(filmright, searchTitle);
-    if (rightsearch!=nullptr) {
-        return rightsearch;
-    }
-}
