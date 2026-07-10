@@ -85,8 +85,10 @@ int main()
     heapSort(recommendations);
     vector<Movie> mergedRecs = mergeSort(recommendations);
 
-    cout << endl;
-    cout << "Heapsort Implementation"<<endl;
+    // Ok so I set it up so that heapsort is still used for the main recommendation sorting, and I set it so that
+    // mergesort is used for the set that suggests movies leaving soon.
+    // This ensures that the algorithms outlined in the initial proposal are still valid.
+    // However, this can be changed if needed.
     cout<<endl;
     cout << "Top Recommended Movies" << endl;
     cout << "----------------------" << endl;
@@ -113,7 +115,7 @@ int main()
 
     vector<Movie> leavingSoon;
 
-    leavingSoon = getLeavingSoonMovies(recommendations);
+    leavingSoon = getLeavingSoonMovies(mergedRecs);
 
     cout << endl;
     cout << "Movies Leaving Soon" << endl;
@@ -126,6 +128,7 @@ int main()
     {
         cout << leavingSoon[i].title << endl;
         cout << "Days Until Expiration: " << leavingSoon[i].daysUntilExpiration << endl;
+        cout << "Genres: " << leavingSoon[i].genres << endl;
         cout << "Reccomendation Score: " << leavingSoon[i].recommendationScore << endl;
         cout << endl;
 
@@ -147,15 +150,14 @@ int main()
             cout<<"Enter a movie title to search: (Please use the format: Title (year))"<<endl;
             getline(cin,movieTitle);
 
-            Movie todd = searchinForAFilm(movies, movieTitle);
-            if (todd.title =="FAIL") {
+            Movie finder = searchinForAFilm(movies, movieTitle);
+            if (finder.title =="FAIL") {
                 cout<<"Sorry! We couldn't find that movie! :("<<endl;
             }
             else {
-                cout << "Genres: " << todd.genres << endl;
-                cout << "Rating: " << todd.averageRating << endl;
-                cout << "Days Until Expiration: " << todd.daysUntilExpiration << endl;
-                cout << "Recommendation Score: " << todd.recommendationScore << endl;
+                cout << "Genres: " << finder.genres << endl;
+                cout << "Rating: " << finder.averageRating << endl;
+                cout << "Days Until Expiration: " << finder.daysUntilExpiration << endl;
                 cout << endl;
             }
         }
