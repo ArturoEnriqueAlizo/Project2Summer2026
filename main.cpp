@@ -41,6 +41,39 @@ Movie searchinForAFilm(vector<Movie>& movies, string searchTitle) {
 
 }
 
+// Reuse the same validated genre input for recommendations and benchmarks.
+vector<string> getFavoriteGenres()
+{
+    string genre;
+
+    do
+    {
+        cout << "Enter your favorite genre(s) (use space to separate genres): ";
+        getline(cin, genre);
+
+        if (genre.find_first_not_of(' ') == string::npos)
+        {
+            cout << "Please enter at least one genre." << endl;
+            genre.clear();
+        }
+    }
+    while (genre.empty());
+
+    vector<string> favoriteGenres;
+    stringstream genreStream(genre);
+    string selectedGenre;
+
+    while (getline(genreStream, selectedGenre, ' '))
+    {
+        if (!selectedGenre.empty())
+        {
+            favoriteGenres.push_back(selectedGenre);
+        }
+    }
+
+    return favoriteGenres;
+}
+
 int main()
 {
     vector<Movie> movies;
@@ -64,23 +97,7 @@ int main()
     {
         if (menuChoice == "1")
         {
-            vector<string> favoriteGenres;
-
-            string genre;
-
-            cout << "Enter your favorite genre(s) (use space to separate genres): ";
-            getline(cin, genre);
-
-            stringstream stringy(genre);
-            string gene;
-
-            while (getline(stringy, gene, ' '))
-            {
-                if (gene != "")
-                {
-                    favoriteGenres.push_back(gene);
-                }
-            }
+            vector<string> favoriteGenres = getFavoriteGenres();
 
             vector<Movie> recommendations;
 
@@ -182,21 +199,7 @@ int main()
         }
         else if (menuChoice == "3")
         {
-            vector<string> favoriteGenres;
-            string genre;
-
-            cout << "Enter your favorite genre(s) (use space to separate genres): ";
-            getline(cin, genre);
-
-            stringstream stringy(genre);
-            string gene;
-            while (getline(stringy, gene, ' '))
-            {
-                if (!gene.empty())
-                {
-                    favoriteGenres.push_back(gene);
-                }
-            }
+            vector<string> favoriteGenres = getFavoriteGenres();
 
             // Score the full dataset so the comparison can test every requested size.
             vector<Movie> benchmarkMovies = movies;

@@ -11,3 +11,14 @@ add_executable(Project2Summer2026Final main.cpp
         Performance.cpp
         Performance.h
         Movie.h)
+
+enable_testing()
+
+add_executable(ProjectTests ProjectTests.cpp
+        Recommendation.cpp
+        Recommendation.h
+        Performance.cpp
+        Performance.h
+        Movie.h)
+
+add_test(NAME ProjectTests COMMAND ProjectTests)
