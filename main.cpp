@@ -36,10 +36,17 @@ int main()
     vector<Movie> recommendations;
 
     recommendations = getRecommendations(movies, favoriteGenres);
+    if (recommendations.size() == 0) {
+        cout << "No recommendations found! Maybe try a different genre?" << endl;
+        return 0;
+    }
 
     heapSort(recommendations);
+    vector<Movie> mergedRecs = mergeSort(recommendations);
 
     cout << endl;
+    cout << "Heapsort Implementation"<<endl;
+    cout<<endl;
     cout << "Top Recommended Movies" << endl;
     cout << "----------------------" << endl;
     cout << endl;
@@ -78,12 +85,28 @@ int main()
     {
         cout << leavingSoon[i].title << endl;
         cout << "Days Until Expiration: " << leavingSoon[i].daysUntilExpiration << endl;
+        cout << "Reccomendation Score: " << leavingSoon[i].recommendationScore << endl;
         cout << endl;
 
         count++;
 
         if (count == 10)
         {
+            break;
+        }
+    }
+
+    string movieTitle;
+    string answer;
+    while (movieTitle == "") {
+        cout << "Search for a film? (Y/N)";
+        cin >> answer;
+        if (answer == "Y") {
+            cout<<"Enter a movie title to search: "<<endl;
+            cin>>movieTitle;
+        }
+        else {
+            cout<<"Understood! Hope you liked these reccomendations! :)"<<endl;
             break;
         }
     }

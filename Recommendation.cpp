@@ -94,8 +94,11 @@ vector<Movie> getLeavingSoonMovies(vector<Movie> movies)
             leavingSoon.push_back(movies[i]);
         }
     }
+    // chose to have the leaving soon function mergesort the results by reccomendation score, this way
+    // highest reccomended films that are leaving soon appear to the user first.
+    vector<Movie> leaveing = mergeSort(leavingSoon);
 
-    return leavingSoon;
+    return leaveing;
 }
 
 void heapify(vector<Movie>& movies, int size, int index)
@@ -151,26 +154,37 @@ void heapSort(vector<Movie>& movies)
         heapify(movies, i, 0);
     }
 }
+
+// Function to reunite and properly sort the films. Also, obligatory ghostbusters reference.
 vector<Movie> merginmakesmefeelgood(vector<Movie> movieleft, vector<Movie> movieright) {
     vector<Movie> sortedfilms;
     int counter = 0;
-    while (movieleft.size() >counter ) {
-        if (movieleft[counter].recommendationScore < movieright[counter].recommendationScore) {
+    int secondcounter = 0;
+    while (movieleft.size() >counter && movieright.size() >secondcounter) {
+        if (movieleft[counter].recommendationScore > movieright[secondcounter].recommendationScore) {
             sortedfilms.push_back(movieleft[counter]);
+            counter++;
         }
         else {
-            sortedfilms.push_back(movieright[counter]);
+            sortedfilms.push_back(movieright[secondcounter]);
+            secondcounter++;
         }
-        counter++;
+    }
+    vector<Movie> leftscraps(movieleft.begin()+counter, movieleft.end());
+    vector<Movie> rightscraps(movieright.begin()+secondcounter, movieright.end());
+    for (auto& scrap:leftscraps) {
+        sortedfilms.push_back(scrap);
+    }
+    for (auto& scrappy:rightscraps) {
+        sortedfilms.push_back(scrappy);
     }
     return sortedfilms;
-
 }
 vector<Movie> mergeSort(vector<Movie>& movies) {
     if (movies.size() <= 1) {
         return movies;
     }
-
+    // This should split the vector properly.
     int stuckinthemiddle = movies.size() / 2;
     vector<Movie> lefty(movies.begin(), movies.begin() + stuckinthemiddle);
     vector<Movie> righty(movies.begin() + stuckinthemiddle, movies.end());
@@ -178,7 +192,18 @@ vector<Movie> mergeSort(vector<Movie>& movies) {
     vector<Movie> leftsplit = mergeSort(lefty);
     vector<Movie> rightsplit = mergeSort(righty);
 
+    // See merginmakesmefeelgood for more info.
     vector<Movie> finalsort = merginmakesmefeelgood(leftsplit, rightsplit);
     return finalsort;
+
+}
+
+Movie searchinForAFilm(vector<Movie> movies, string searchTitle) {
+    if (movies.size() <= 1) {
+        return movies[0];
+    }
+    if (movies[0].title == searchTitle) {
+        return movies[0];
+    }
 
 }
