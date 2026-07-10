@@ -198,12 +198,25 @@ vector<Movie> mergeSort(vector<Movie>& movies) {
 
 }
 
-Movie searchinForAFilm(vector<Movie> movies, string searchTitle) {
+
+
+vector<Movie> searchinForAFilm(vector<Movie> movies, string searchTitle, int count =0) {
     if (movies.size() <= 1) {
-        return movies[0];
+        return movies;
     }
     if (movies[0].title == searchTitle) {
-        return movies[0];
+        return movies;
     }
+
+    int merginsearch = movies.size()/2;
+    vector <Movie> filmleft(movies.begin(), movies.begin() + merginsearch);
+    vector <Movie> filmright(movies.begin() + merginsearch, movies.end());
+
+    vector<Movie> leftsearch = searchinForAFilm(filmleft, searchTitle, merginsearch);
+
+    vector<Movie> rightsearch = searchinForAFilm(filmright, searchTitle, merginsearch);
+
+
+
 
 }
