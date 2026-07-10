@@ -42,6 +42,7 @@ namespace
         Performance
     };
 
+    // gui state stays separate while reusing the projects shared backend modules
     vector<Movie> movies;
     vector<Movie> displayedMovies;
     vector<Movie> watchlist;

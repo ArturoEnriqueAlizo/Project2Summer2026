@@ -5,27 +5,24 @@
 #include "Movie.h"
 using namespace std;
 
-// Returns true if the movie has one of the user's favorite genres
+// returns true if the movie has one of the users favorite genres
 bool genreMatches(Movie movie, vector<string> favoriteGenres);
 
-// Returns bonus points based on how soon the movie expires
+// returns bonus points based on how soon the movie expires
 double getExpirationBonus(Movie movie);
 
-// Calculates the final recommendation score
+// calculates the final recommendation score
 double calculateScore(Movie movie, vector<string> favoriteGenres);
 
-// Returns only the recommended movies
+// returns only the recommended movies
 vector<Movie> getRecommendations(vector<Movie> movies, vector<string> favoriteGenres);
 
 vector<Movie> getLeavingSoonMovies(vector<Movie> movies);
 
-// Sorts the recommended movies using Heap Sort
+// sorts the recommended movies using heap sort
 void heapSort(vector<Movie>& movies);
 
-// Sorts the reccomended movies using Merge Sort
+// sorts the recommended movies using merge sort
 vector<Movie> mergeSort(vector<Movie>& movies);
-
-// need to combine heapsort with leaving soon. In curr state, leaving soon does not consider reccomendation score.
-// well, that was a simple fix in main.
 
 #endif

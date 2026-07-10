@@ -9,40 +9,20 @@
 #include "Watchlist.h"
 using namespace std;
 
-Movie searchinForAFilm(vector<Movie>& movies, string searchTitle) {
-    if (movies.empty()) {
-        Movie temp;
-        temp.title = "FAIL";
-        return temp;
+// search the unsorted dataset directly without copying temporary vectors
+Movie searchForMovie(const vector<Movie>& movies, const string& searchTitle) {
+    for (const Movie& movie : movies) {
+        if (movie.title == searchTitle) {
+            return movie;
+        }
     }
 
-    if (movies[0].title == searchTitle) {
-        return movies[0];
-    }
-    if (movies.size() == 1 && movies[0].title != searchTitle) {
-        Movie temp;
-        temp.title = "FAIL";
-        return temp;
-    }
-    int merginsearch = movies.size()/2;
-    vector <Movie> filmleft(movies.begin(), movies.begin() + merginsearch);
-    vector <Movie> filmright(movies.begin() + merginsearch, movies.end());
-
-    Movie leftsearch = searchinForAFilm(filmleft, searchTitle);
-    if (leftsearch.title !="FAIL") {
-        return leftsearch;
-    }
-    Movie rightsearch = searchinForAFilm(filmright, searchTitle);
-    if (rightsearch.title !="FAIL") {
-        return rightsearch;
-    }
     Movie temp;
     temp.title = "FAIL";
     return temp;
-
 }
 
-// Reuse the same validated genre input for recommendations and benchmarks.
+// reuse the same validated genre input for recommendations and benchmarks
 vector<string> getFavoriteGenres()
 {
     string genre;
@@ -111,16 +91,13 @@ int main()
             }
             else
             {
-                // Give both algorithms identical input so one sort does not affect the other.
+                // give both algorithms identical input so one sort does not affect the other
                 vector<Movie> heapRecommendations = recommendations;
                 vector<Movie> mergeRecommendations = recommendations;
                 heapSort(heapRecommendations);
                 mergeRecommendations = mergeSort(mergeRecommendations);
 
-                // Ok so I set it up so that heapsort is still used for the main recommendation sorting, and I set it so that
-                // mergesort is used for the set that suggests movies leaving soon.
-                // This ensures that the algorithms outlined in the initial proposal are still valid.
-                // However, this can be changed if needed.
+                // heap sort ranks recommendations while merge sort ranks leaving soon movies
                 cout << endl;
                 cout << "Top Recommended Movies" << endl;
                 cout << "----------------------" << endl;
@@ -183,7 +160,7 @@ int main()
 
             getline(cin, movieTitle);
 
-            Movie finder = searchinForAFilm(movies, movieTitle);
+            Movie finder = searchForMovie(movies, movieTitle);
 
             if (finder.title == "FAIL")
             {
@@ -203,7 +180,7 @@ int main()
         {
             vector<string> favoriteGenres = getFavoriteGenres();
 
-            // Score the full dataset so the comparison can test every requested size.
+            // score the full dataset so the comparison can test every requested size
             vector<Movie> benchmarkMovies = movies;
             for (Movie& movie : benchmarkMovies)
             {
@@ -218,7 +195,7 @@ int main()
             cout << "Enter the exact movie title to add: ";
             getline(cin, movieTitle);
 
-            Movie movie = searchinForAFilm(movies, movieTitle);
+            Movie movie = searchForMovie(movies, movieTitle);
             if (movie.title == "FAIL")
             {
                 cout << "Movie not found." << endl;

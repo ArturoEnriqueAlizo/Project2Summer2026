@@ -37,7 +37,7 @@ bool verifySortResults(const vector<Movie>& heapResult,
 
     for (int i = 0; i < heapResult.size(); i++)
     {
-        // Heap Sort is ascending, so compare it backward with descending Merge Sort.
+        // heap sort is ascending so compare it backward with descending merge sort
         int heapIndex = static_cast<int>(heapResult.size()) - 1 - i;
         if (abs(heapResult[heapIndex].recommendationScore
                 - mergeResult[i].recommendationScore) > 0.000001)
@@ -68,7 +68,7 @@ PerformanceResult compareSorts(const vector<Movie>& movies, int trials)
 
     for (int trial = 0; trial < trials; trial++)
     {
-        // Copy before timing so both algorithms receive identical input.
+        // copy before timing so both algorithms receive identical input
         vector<Movie> heapMovies = movies;
         vector<Movie> mergeMovies = movies;
 

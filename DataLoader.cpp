@@ -3,11 +3,13 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 using namespace std;
 
 vector<Movie> loadMovies(string moviesFile, string ratingsFile)
 {
     vector<Movie> movies;
+    unordered_map<int, int> movieIndexById;
 
     ifstream file;
     file.open(moviesFile);
@@ -60,6 +62,7 @@ vector<Movie> loadMovies(string moviesFile, string ratingsFile)
         movie.recommendationScore = 0;
 
         movies.push_back(movie);
+        movieIndexById[movie.movieId] = static_cast<int>(movies.size()) - 1;
     }
 
     file.close();
@@ -101,14 +104,13 @@ vector<Movie> loadMovies(string moviesFile, string ratingsFile)
         int movieId = stoi(movieIdText);
         double rating = stod(ratingText);
 
-        for (int i = 0; i < movies.size(); i++)
+        // use the movie id map so each rating is processed in constant average time
+        auto movieIndex = movieIndexById.find(movieId);
+        if (movieIndex != movieIndexById.end())
         {
-            if (movies[i].movieId == movieId)
-            {
-                totalRatings[i] = totalRatings[i] + rating;
-                ratingCounts[i] = ratingCounts[i] + 1;
-                break;
-            }
+            int index = movieIndex->second;
+            totalRatings[index] = totalRatings[index] + rating;
+            ratingCounts[index] = ratingCounts[index] + 1;
         }
     }
 
@@ -121,6 +123,7 @@ vector<Movie> loadMovies(string moviesFile, string ratingsFile)
             movies[i].averageRating = totalRatings[i] / ratingCounts[i];
         }
 
+        // movielens has no expiration data so generate 1 to 60 days for demonstration
         movies[i].daysUntilExpiration = (i % 60) + 1;
     }
 
