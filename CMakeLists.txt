@@ -26,3 +26,17 @@ add_executable(ProjectTests ProjectTests.cpp
         Movie.h)
 
 add_test(NAME ProjectTests COMMAND ProjectTests)
+
+# Keep the GUI optional so the console project remains portable.
+if(WIN32)
+    add_executable(MementoGUI WIN32 GuiMain.cpp
+            DataLoader.cpp
+            DataLoader.h
+            Recommendation.cpp
+            Recommendation.h
+            Performance.cpp
+            Performance.h
+            Watchlist.cpp
+            Watchlist.h
+            Movie.h)
+endif()
