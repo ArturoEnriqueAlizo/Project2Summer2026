@@ -8,4 +8,35 @@ add_executable(Project2Summer2026Final main.cpp
         DataLoader.h
         Recommendation.cpp
         Recommendation.h
+        Performance.cpp
+        Performance.h
+        Watchlist.cpp
+        Watchlist.h
         Movie.h)
+
+enable_testing()
+
+add_executable(ProjectTests ProjectTests.cpp
+        Recommendation.cpp
+        Recommendation.h
+        Performance.cpp
+        Performance.h
+        Watchlist.cpp
+        Watchlist.h
+        Movie.h)
+
+add_test(NAME ProjectTests COMMAND ProjectTests)
+
+# Keep the GUI optional so the console project remains portable.
+if(WIN32)
+    add_executable(MementoGUI WIN32 GuiMain.cpp
+            DataLoader.cpp
+            DataLoader.h
+            Recommendation.cpp
+            Recommendation.h
+            Performance.cpp
+            Performance.h
+            Watchlist.cpp
+            Watchlist.h
+            Movie.h)
+endif()
