@@ -8,4 +8,6 @@ add_executable(Project2Summer2026Final main.cpp
         DataLoader.h
         Recommendation.cpp
         Recommendation.h
+        Performance.cpp
+        Performance.h
         Movie.h)
