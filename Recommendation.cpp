@@ -28,38 +28,39 @@ bool genreMatches(Movie movie, vector<string> favoriteGenres)
     return true;
 }
 
-int getExpirationBonus(Movie movie)
+double getExpirationBonus(Movie movie)
 {
-    if (movie.daysUntilExpiration <= 7)
-    {
-        return 30;
-    }
-
-    if (movie.daysUntilExpiration <= 14)
-    {
-        return 20;
-    }
+    double bonus = 0;
 
     if (movie.daysUntilExpiration <= 30)
     {
-        return 10;
+        bonus = 31 - movie.daysUntilExpiration;
     }
 
-    return 0;
+    return bonus;
 }
 
 double calculateScore(Movie movie, vector<string> favoriteGenres)
 {
     double score = 0;
 
-    score = movie.averageRating * 20;
+    double ratingPoints =
+        movie.averageRating * 20;
+
+    double genrePoints = 0;
 
     if (genreMatches(movie, favoriteGenres))
     {
-        score = score + 25;
+        genrePoints = 25;
     }
 
-    score = score + getExpirationBonus(movie);
+    double expirationPoints =
+        getExpirationBonus(movie);
+
+    score =
+        ratingPoints +
+        genrePoints +
+        expirationPoints;
 
     return score;
 }

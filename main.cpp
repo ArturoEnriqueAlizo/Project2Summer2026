@@ -5,7 +5,7 @@
 #include "Movie.h"
 #include "DataLoader.h"
 #include "Recommendation.h"
-
+using namespace std;
 
 Movie searchinForAFilm(vector<Movie>& movies, string searchTitle) {
     if (movies.empty()) {
@@ -39,7 +39,6 @@ Movie searchinForAFilm(vector<Movie>& movies, string searchTitle) {
     return temp;
 
 }
-using namespace std;
 
 int main()
 {
@@ -58,114 +57,143 @@ int main()
     cout << "Total movies: " << movies.size() << endl;
     cout << endl;
 
-    vector<string> favoriteGenres;
+    string menuChoice = "1";
 
-    string genre;
-
-    cout << "Enter your favorite genre(s) (use space to separate genres): ";
-    getline(cin,genre);
-
-    stringstream stringy(genre);
-    string gene;
-
-    while (getline(stringy,gene,' ')) {
-        favoriteGenres.push_back(gene);
-    }
-
-
-
-    vector<Movie> recommendations;
-
-    recommendations = getRecommendations(movies, favoriteGenres);
-    if (recommendations.size() == 0) {
-        cout << "No recommendations found! Maybe try a different genre?" << endl;
-        return 0;
-    }
-
-    heapSort(recommendations);
-    vector<Movie> mergedRecs = mergeSort(recommendations);
-
-    // Ok so I set it up so that heapsort is still used for the main recommendation sorting, and I set it so that
-    // mergesort is used for the set that suggests movies leaving soon.
-    // This ensures that the algorithms outlined in the initial proposal are still valid.
-    // However, this can be changed if needed.
-    cout<<endl;
-    cout << "Top Recommended Movies" << endl;
-    cout << "----------------------" << endl;
-    cout << endl;
-
-    int count = 0;
-
-    for (int i = recommendations.size() - 1; i >= 0; i--)
+    while (menuChoice != "3")
     {
-        cout << recommendations[i].title << endl;
-        cout << "Genres: " << recommendations[i].genres << endl;
-        cout << "Rating: " << recommendations[i].averageRating << endl;
-        cout << "Days Until Expiration: " << recommendations[i].daysUntilExpiration << endl;
-        cout << "Recommendation Score: " << recommendations[i].recommendationScore << endl;
-        cout << endl;
-
-        count++;
-
-        if (count == 10)
+        if (menuChoice == "1")
         {
-            break;
+            vector<string> favoriteGenres;
+
+            string genre;
+
+            cout << "Enter your favorite genre(s) (use space to separate genres): ";
+            getline(cin, genre);
+
+            stringstream stringy(genre);
+            string gene;
+
+            while (getline(stringy, gene, ' '))
+            {
+                if (gene != "")
+                {
+                    favoriteGenres.push_back(gene);
+                }
+            }
+
+            vector<Movie> recommendations;
+
+            recommendations = getRecommendations(movies, favoriteGenres);
+
+            if (recommendations.size() == 0)
+            {
+                cout << "No recommendations found! Maybe try a different genre?" << endl;
+            }
+            else
+            {
+                heapSort(recommendations);
+                vector<Movie> mergedRecs = mergeSort(recommendations);
+
+                // Ok so I set it up so that heapsort is still used for the main recommendation sorting, and I set it so that
+                // mergesort is used for the set that suggests movies leaving soon.
+                // This ensures that the algorithms outlined in the initial proposal are still valid.
+                // However, this can be changed if needed.
+                cout << endl;
+                cout << "Top Recommended Movies" << endl;
+                cout << "----------------------" << endl;
+                cout << endl;
+
+                int count = 0;
+
+                for (int i = recommendations.size() - 1; i >= 0; i--)
+                {
+                    cout << recommendations[i].title << endl;
+                    cout << "Genres: " << recommendations[i].genres << endl;
+                    cout << "Rating: " << recommendations[i].averageRating << endl;
+                    cout << "Days Until Expiration: " << recommendations[i].daysUntilExpiration << endl;
+                    cout << "Recommendation Score: " << recommendations[i].recommendationScore << endl;
+                    cout << endl;
+
+                    count++;
+
+                    if (count == 10)
+                    {
+                        break;
+                    }
+                }
+
+                vector<Movie> leavingSoon;
+
+                leavingSoon = getLeavingSoonMovies(mergedRecs);
+
+                cout << endl;
+                cout << "Movies Leaving Soon" << endl;
+                cout << "-------------------" << endl;
+                cout << endl;
+
+                count = 0;
+
+                for (int i = 0; i < leavingSoon.size(); i++)
+                {
+                    cout << leavingSoon[i].title << endl;
+                    cout << "Days Until Expiration: " << leavingSoon[i].daysUntilExpiration << endl;
+                    cout << "Genres: " << leavingSoon[i].genres << endl;
+                    cout << "Recommendation Score: " << leavingSoon[i].recommendationScore << endl;
+                    cout << endl;
+
+                    count++;
+
+                    if (count == 10)
+                    {
+                        break;
+                    }
+                }
+            }
         }
-    }
-
-    vector<Movie> leavingSoon;
-
-    leavingSoon = getLeavingSoonMovies(mergedRecs);
-
-    cout << endl;
-    cout << "Movies Leaving Soon" << endl;
-    cout << "-------------------" << endl;
-    cout << endl;
-
-    count = 0;
-
-    for (int i = 0; i < leavingSoon.size(); i++)
-    {
-        cout << leavingSoon[i].title << endl;
-        cout << "Days Until Expiration: " << leavingSoon[i].daysUntilExpiration << endl;
-        cout << "Genres: " << leavingSoon[i].genres << endl;
-        cout << "Reccomendation Score: " << leavingSoon[i].recommendationScore << endl;
-        cout << endl;
-
-        count++;
-
-        if (count == 10)
+        else if (menuChoice == "2")
         {
-            break;
-        }
-    }
+            string movieTitle;
 
-    string movieTitle;
-    string answer;
-    while (answer != "N") {
-        cout << "Search for a film? (Y/N)";
-        cin >> answer;
-        if (answer == "Y") {
-            cin.ignore();
-            cout<<"Enter a movie title to search: (Please use the format: Title (year))"<<endl;
-            getline(cin,movieTitle);
+            cout << "Enter a movie title to search." << endl;
+            cout << "Please use the format: Title (year)" << endl;
+            cout << "Movie title: ";
+
+            getline(cin, movieTitle);
 
             Movie finder = searchinForAFilm(movies, movieTitle);
-            if (finder.title =="FAIL") {
-                cout<<"Sorry! We couldn't find that movie! :("<<endl;
+
+            if (finder.title == "FAIL")
+            {
+                cout << "Sorry! We couldn't find that movie! :(" << endl;
             }
-            else {
+            else
+            {
+                cout << endl;
+                cout << finder.title << endl;
                 cout << "Genres: " << finder.genres << endl;
                 cout << "Rating: " << finder.averageRating << endl;
                 cout << "Days Until Expiration: " << finder.daysUntilExpiration << endl;
                 cout << endl;
             }
         }
-        else {
-            cout<<"Understood! Hope you liked these recommendations! :)"<<endl;
-            break;
+        else if (menuChoice != "3")
+        {
+            cout << "Please enter 1, 2, or 3." << endl;
         }
+
+        cout << endl;
+        cout << "What do you want to do?" << endl;
+        cout << "1. Choose another genre" << endl;
+        cout << "2. Search for a specific movie" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Choice: ";
+
+        getline(cin, menuChoice);
+
+        cout << endl;
     }
+
+    cout << "Understood! Hope you liked these recommendations! :)" << endl;
 
     return 0;
 }
