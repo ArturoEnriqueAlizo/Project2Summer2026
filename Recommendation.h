@@ -9,7 +9,7 @@ using namespace std;
 bool genreMatches(Movie movie, vector<string> favoriteGenres);
 
 // Returns bonus points based on how soon the movie expires
-int getExpirationBonus(Movie movie);
+double getExpirationBonus(Movie movie);
 
 // Calculates the final recommendation score
 double calculateScore(Movie movie, vector<string> favoriteGenres);
