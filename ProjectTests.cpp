@@ -1,5 +1,6 @@
 #include "Performance.h"
 #include "Recommendation.h"
+#include "Watchlist.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -55,6 +56,16 @@ int main()
     PerformanceResult result = compareSorts(movies, 3);
     allPassed &= check(result.outputsMatch && result.dataSize == 4,
                        "performance comparison verifies its output");
+
+    vector<Movie> watchlist;
+    allPassed &= check(addToWatchlist(watchlist, movies[0]),
+                       "movie can be added to watchlist");
+    allPassed &= check(!addToWatchlist(watchlist, movies[0]),
+                       "duplicate watchlist movie is rejected");
+    allPassed &= check(removeFromWatchlist(watchlist, movies[0].title),
+                       "movie can be removed from watchlist");
+    allPassed &= check(watchlist.empty(),
+                       "watchlist is empty after removal");
 
     return allPassed ? 0 : 1;
 }

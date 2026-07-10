@@ -6,6 +6,7 @@
 #include "DataLoader.h"
 #include "Recommendation.h"
 #include "Performance.h"
+#include "Watchlist.h"
 using namespace std;
 
 Movie searchinForAFilm(vector<Movie>& movies, string searchTitle) {
@@ -91,9 +92,10 @@ int main()
     cout << "Total movies: " << movies.size() << endl;
     cout << endl;
 
+    vector<Movie> watchlist;
     string menuChoice = "1";
 
-    while (menuChoice != "4")
+    while (menuChoice != "7")
     {
         if (menuChoice == "1")
         {
@@ -210,9 +212,62 @@ int main()
 
             runPerformanceTests(benchmarkMovies, 10);
         }
-        else if (menuChoice != "4")
+        else if (menuChoice == "4")
         {
-            cout << "Please enter 1, 2, 3, or 4." << endl;
+            string movieTitle;
+            cout << "Enter the exact movie title to add: ";
+            getline(cin, movieTitle);
+
+            Movie movie = searchinForAFilm(movies, movieTitle);
+            if (movie.title == "FAIL")
+            {
+                cout << "Movie not found." << endl;
+            }
+            else if (addToWatchlist(watchlist, movie))
+            {
+                cout << movie.title << " was added to your watchlist." << endl;
+            }
+            else
+            {
+                cout << movie.title << " is already in your watchlist." << endl;
+            }
+        }
+        else if (menuChoice == "5")
+        {
+            cout << endl << "Your Watchlist" << endl;
+            cout << "--------------" << endl;
+
+            if (watchlist.empty())
+            {
+                cout << "Your watchlist is empty." << endl;
+            }
+            else
+            {
+                for (const Movie& movie : watchlist)
+                {
+                    cout << movie.title << " | " << movie.genres
+                         << " | Rating: " << movie.averageRating << endl;
+                }
+            }
+        }
+        else if (menuChoice == "6")
+        {
+            string movieTitle;
+            cout << "Enter the exact movie title to remove: ";
+            getline(cin, movieTitle);
+
+            if (removeFromWatchlist(watchlist, movieTitle))
+            {
+                cout << movieTitle << " was removed from your watchlist." << endl;
+            }
+            else
+            {
+                cout << "That movie is not in your watchlist." << endl;
+            }
+        }
+        else if (menuChoice != "7")
+        {
+            cout << "Please enter a number from 1 to 7." << endl;
         }
 
         cout << endl;
@@ -220,7 +275,10 @@ int main()
         cout << "1. Choose another genre" << endl;
         cout << "2. Search for a specific movie" << endl;
         cout << "3. Compare Heap Sort and Merge Sort" << endl;
-        cout << "4. Exit" << endl;
+        cout << "4. Add a movie to watchlist" << endl;
+        cout << "5. View watchlist" << endl;
+        cout << "6. Remove a movie from watchlist" << endl;
+        cout << "7. Exit" << endl;
         cout << "Choice: ";
 
         getline(cin, menuChoice);

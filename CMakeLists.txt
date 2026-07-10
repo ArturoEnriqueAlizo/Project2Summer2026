@@ -10,6 +10,8 @@ add_executable(Project2Summer2026Final main.cpp
         Recommendation.h
         Performance.cpp
         Performance.h
+        Watchlist.cpp
+        Watchlist.h
         Movie.h)
 
 enable_testing()
@@ -19,6 +21,8 @@ add_executable(ProjectTests ProjectTests.cpp
         Recommendation.h
         Performance.cpp
         Performance.h
+        Watchlist.cpp
+        Watchlist.h
         Movie.h)
 
 add_test(NAME ProjectTests COMMAND ProjectTests)
