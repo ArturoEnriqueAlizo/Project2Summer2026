@@ -151,3 +151,34 @@ void heapSort(vector<Movie>& movies)
         heapify(movies, i, 0);
     }
 }
+vector<Movie> merginmakesmefeelgood(vector<Movie> movieleft, vector<Movie> movieright) {
+    vector<Movie> sortedfilms;
+    int counter = 0;
+    while (movieleft.size() >counter ) {
+        if (movieleft[counter].recommendationScore < movieright[counter].recommendationScore) {
+            sortedfilms.push_back(movieleft[counter]);
+        }
+        else {
+            sortedfilms.push_back(movieright[counter]);
+        }
+        counter++;
+    }
+    return sortedfilms;
+
+}
+vector<Movie> mergeSort(vector<Movie>& movies) {
+    if (movies.size() <= 1) {
+        return movies;
+    }
+
+    int stuckinthemiddle = movies.size() / 2;
+    vector<Movie> lefty(movies.begin(), movies.begin() + stuckinthemiddle);
+    vector<Movie> righty(movies.begin() + stuckinthemiddle, movies.end());
+
+    vector<Movie> leftsplit = mergeSort(lefty);
+    vector<Movie> rightsplit = mergeSort(righty);
+
+    vector<Movie> finalsort = merginmakesmefeelgood(leftsplit, rightsplit);
+    return finalsort;
+
+}

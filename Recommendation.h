@@ -22,6 +22,8 @@ vector<Movie> getLeavingSoonMovies(vector<Movie> movies);
 // Sorts the recommended movies using Heap Sort
 void heapSort(vector<Movie>& movies);
 
+vector<Movie> mergeSort(vector<Movie>& movies);
+
 // need to combine heapsort with leaving soon. In curr state, leaving soon does not consider reccomendation score.
 // well, that was a simple fix in main.
 
