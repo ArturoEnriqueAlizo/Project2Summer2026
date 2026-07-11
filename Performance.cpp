@@ -37,7 +37,7 @@ bool verifySortResults(const vector<Movie>& heapResult,
 
     for (int i = 0; i < heapResult.size(); i++)
     {
-        // heap sort is ascending so compare it backward with descending merge sort
+        // Heap Sort is ascending so compare it backward with descending Merge Sort
         int heapIndex = static_cast<int>(heapResult.size()) - 1 - i;
         if (abs(heapResult[heapIndex].recommendationScore
                 - mergeResult[i].recommendationScore) > 0.000001)
@@ -51,6 +51,7 @@ bool verifySortResults(const vector<Movie>& heapResult,
 
 PerformanceResult compareSorts(const vector<Movie>& movies, int trials)
 {
+
     PerformanceResult result;
     result.dataSize = static_cast<int>(movies.size());
     result.heapAverageMicroseconds = 0;
@@ -66,9 +67,9 @@ PerformanceResult compareSorts(const vector<Movie>& movies, int trials)
     double heapTotal = 0;
     double mergeTotal = 0;
 
-    for (int trial = 0; trial < trials; trial++)
-    {
-        // copy before timing so both algorithms receive identical input
+    for (int trial = 0; trial < trials; trial++){
+    
+        // Copy before timing so both algorithms receive identical input.
         vector<Movie> heapMovies = movies;
         vector<Movie> mergeMovies = movies;
 
@@ -108,7 +109,6 @@ void runPerformanceTests(const vector<Movie>& movies, int trials)
     {
         testSizes.push_back(static_cast<int>(movies.size()));
     }
-
     cout << endl;
     cout << "Heap Sort vs. Merge Sort Performance" << endl;
     cout << "-------------------------------------------------------" << endl;

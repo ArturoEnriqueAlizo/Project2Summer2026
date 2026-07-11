@@ -1,0 +1,18 @@
+# Local build output
+/build*/
+*.obj
+*.pdb
+cmake-build-*/
+
+# IDE and operating system files
+.vs/
+.vscode/
+.DS_Store
+
+# Download and extraction artifacts
+*.zip
+dataset-download/
+
+# Local verification and submission drafts
+/tmp/
+/output/
