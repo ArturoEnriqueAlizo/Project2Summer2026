@@ -28,7 +28,7 @@ Memento is a movie recommendation and expiration alert system built in C++. It u
 - A compiler with C++20 support
 - Windows GUI: Visual Studio Community or Build Tools with **Desktop development with C++**
 
-The console application can also build with Apple Clang on macOS or GCC/Clang on Linux. The GUI uses the native Win32 API and is therefore available only on Windows.
+The console application should be able to build with Apple Clang on macOS or GCC on Linux. The GUI uses the native Win32 API and is therefore available only on Windows.
 
 ## Dataset
 
@@ -78,7 +78,6 @@ cmake --build build
 ./build/Project2Summer2026Final
 ```
 
-`MementoGUI` is intentionally omitted on non-Windows systems.
 
 ## Run Automated Tests
 
@@ -88,11 +87,9 @@ After building, run:
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-For a single-configuration generator, `-C Release` can be omitted.
-
 ## Console Menu
 
-The console application provides seven options:
+The console provides seven options:
 
 1. Get movie recommendations
 2. Search for a specific movie
@@ -102,11 +99,11 @@ The console application provides seven options:
 6. Remove a movie from the watchlist
 7. Exit
 
-Enter genres separated by spaces, such as `Action Comedy`. Exact-title searches must include the year in the MovieLens format, such as `Toy Story (1995)`.
+Enter genres separated by spaces, e.g. `Action Comedy`. Exact-title searches must include the year in the MovieLens format, e.g. `Toy Story (1995)`.
 
 ## Performance Comparison
 
-The comparison assigns scores to the full dataset and tests identical copies at sizes of 100, 500, 1,000, 2,500, 5,000, and the largest available size. Each algorithm runs ten times per size. The program reports average microseconds and prints `PASS` when Heap Sort and Merge Sort produce equivalent score ordering and contain the same movies.
+The comparison assigns scores to the full dataset and tests identical copies at sizes of 100, 500, 1,000, 2,500, 5,000, and the largest available size. Each algorithm runs ten times per size. The program reports average microseconds and prints `PASS` when Heap Sort and Merge Sort produce a equalscore ordering and contain the same movies.
 
 Heap Sort produces ascending output and is read from the end when displaying recommendations. Merge Sort produces descending output. The verifier accounts for this difference rather than changing either algorithm solely for the benchmark.
 
@@ -121,34 +118,4 @@ Heap Sort produces ascending output and is read from the end when displaying rec
 - `Watchlist.h/.cpp`: shared in-memory watchlist operations
 - `ProjectTests.cpp`: automated correctness tests
 
-## Troubleshooting
 
-### CMake is not recognized
-
-Use **Developer PowerShell for Visual Studio**, or install the CMake component through the Visual Studio Installer under **Desktop development with C++**.
-
-### CMake reports that version 4.0 is required
-
-Pull the latest repository version. The project now supports CMake 3.16 and newer. If an old error remains cached, delete the local `build` directory and configure again.
-
-### MementoGUI is not listed as a target
-
-The GUI target exists only on Windows. On Windows, configure with a Visual Studio or NMake generator and reload the CMake project.
-
-### The program says the MovieLens files were not found
-
-Confirm that `Data/movies.csv` and `Data/ratings.csv` exist and launch the executable with the repository root as the working directory.
-
-### LINK error LNK1168 cannot open MementoGUI.exe
-
-Close the running Memento GUI before rebuilding. Windows cannot replace the executable while it is open.
-
-### Visual Studio uses a stale configuration
-
-Close the running program, delete the local `build` directory, and run the two build commands again.
-
-## Data Acknowledgment
-
-This project uses the MovieLens `ml-latest-small` dataset provided by GroupLens Research at the University of Minnesota. Dataset use and redistribution remain subject to the conditions in `Data/README.txt`.
-
-F. Maxwell Harper and Joseph A. Konstan. 2015. *The MovieLens Datasets: History and Context.* ACM Transactions on Interactive Intelligent Systems 5, 4, Article 19. https://doi.org/10.1145/2827872
