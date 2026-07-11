@@ -64,7 +64,7 @@ int main()
     vector<Movie> watchlist;
     string menuChoice = "1";
 
-    while (menuChoice != "7")
+    while (menuChoice != "8")
     {
         if (menuChoice == "1")
         {
@@ -263,7 +263,7 @@ int main()
                 }
             }
             else {
-                menuChoice = "8";
+                menuChoice = "9";
             }
 
         }
@@ -333,7 +333,25 @@ int main()
                 cout << "That movie is not in your watchlist." << endl;
             }
         }
-        else if (menuChoice != "7")
+        else if (menuChoice == "7") {
+            string seed;
+            cout << "Enter a number for the seed."<<endl;
+            cout<<"Seed: ";
+            getline(cin, seed);
+            int seeds = stoi(seed);
+            Movie randomselection = surpriseMe(movies, seeds);
+            if (randomselection.title == "FAIL") {
+                cout<<"Sorry! There appears to be no available movies. Maybe try again?"<<endl;
+            }
+            else {
+                cout<<"Title: "<<randomselection.title<<endl;
+                cout << "Genres: " << randomselection.genres << endl;
+                cout << "Rating: " << randomselection.averageRating << endl;
+                cout << "Days Until Expiration: " << randomselection.daysUntilExpiration << endl;
+                cout << endl;
+            }
+        }
+        else if (menuChoice != "8")
         {
             cout << "Please enter a number from 1 to 7." << endl;
         }
@@ -346,7 +364,8 @@ int main()
         cout << "4. Add a movie to watchlist" << endl;
         cout << "5. View watchlist" << endl;
         cout << "6. Remove a movie from watchlist" << endl;
-        cout << "7. Exit" << endl;
+        cout << "7. Surprise me with a random movie!" << endl;
+        cout << "8. Exit" << endl;
         cout << "Choice: ";
 
         getline(cin, menuChoice);

@@ -1,6 +1,7 @@
 #include "Recommendation.h"
 #include <iostream>
 #include <cctype>
+#include <random>
 using namespace std;
 
 bool genreMatches(Movie movie, vector<string> favoriteGenres)
@@ -195,6 +196,20 @@ vector<Movie> mergeSort(vector<Movie>& movies) {
     vector<Movie> finalsort = merginmakesmefeelgood(leftsplit, rightsplit);
     return finalsort;
 
+}
+// Suggests a random movie to the user.
+Movie surpriseMe(vector<Movie> movies, int seedy) {
+    Movie temp;
+    temp.title = "FAIL!";
+    if (movies.size() ==0) {
+        return temp;
+    }
+    srand(seedy);
+
+    int randomSelection = rand()%movies.size();
+    Movie final = movies[randomSelection];
+
+    return final;
 }
 
 

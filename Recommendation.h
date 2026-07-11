@@ -25,4 +25,7 @@ void heapSort(vector<Movie>& movies);
 // sorts the recommended movies using merge sort
 vector<Movie> mergeSort(vector<Movie>& movies);
 
+// returns a random movie, as a fun bonus feature.
+Movie surpriseMe(vector<Movie> movies, int seedy);
+
 #endif
