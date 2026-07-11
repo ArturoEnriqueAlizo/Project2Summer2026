@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.16)
 project(Project2Summer2026Final)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(Project2Summer2026Final main.cpp
         DataLoader.cpp
@@ -27,7 +29,7 @@ add_executable(ProjectTests ProjectTests.cpp
 
 add_test(NAME ProjectTests COMMAND ProjectTests)
 
-# Keep the GUI optional so the console project remains portable.
+# keep the gui optional so the console project remains portable
 if(WIN32)
     add_executable(MementoGUI WIN32 GuiMain.cpp
             DataLoader.cpp
