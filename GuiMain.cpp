@@ -541,6 +541,17 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int showCommand)
         movies = loadMovies("../Data/movies.csv", "../Data/ratings.csv");
     }
 
+    if (movies.empty())
+    {
+        MessageBoxW(nullptr,
+                    L"MovieLens files were not found\n\n"
+                    L"place movies.csv and ratings.csv in the Data folder "
+                    L"and run the program from the project root",
+                    L"Memento // Dataset Missing",
+                    MB_OK | MB_ICONERROR);
+        return 1;
+    }
+
     const wchar_t className[] = L"MementoRetroWindow";
     WNDCLASSW windowClass = {};
     windowClass.lpfnWndProc = windowProcedure;
