@@ -8,6 +8,7 @@
 #include "Performance.h"
 #include "Recommendation.h"
 #include "Watchlist.h"
+#include <random>
 using namespace std;
 
 namespace
@@ -31,7 +32,8 @@ namespace
         ID_DETAILS,
         ID_ADD,
         ID_REMOVE,
-        ID_STATUS
+        ID_STATUS,
+        ID_SURPRISE
     };
 
     enum class ViewMode
@@ -39,7 +41,8 @@ namespace
         Recommend,
         Search,
         Watchlist,
-        Performance
+        Performance,
+        SurpriseMe
     };
 
     // gui state stays separate while reusing the projects shared backend modules
@@ -53,6 +56,7 @@ namespace
     HWND resultsList;
     HWND detailsLabel;
     HWND addButton;
+    HWND surpriseButton;
     HWND removeButton;
     HWND statusLabel;
     HFONT headingFont;
@@ -137,6 +141,7 @@ namespace
         }
     }
 
+
     vector<string> parseGenres(const string& text)
     {
         vector<string> genres;
@@ -152,6 +157,19 @@ namespace
         }
 
         return genres;
+    }
+    Movie surpriseTime(unsigned int seedss) {
+        if (movies.size() ==0) {
+            Movie temp;
+            temp.title = "FAIL!";
+            return temp;
+        }
+        srand(seedss);
+
+        int randomSelection = rand()%movies.size();
+        Movie final = movies[randomSelection];
+
+        return final;
     }
 
     Movie findMovie(const string& title)
@@ -194,6 +212,17 @@ namespace
         clearResults();
         setStatus(L"SEARCH MODE  |  USE THE EXACT TITLE AND YEAR");
     }
+    void showSurpriseView() {
+        currentMode = ViewMode::SurpriseMe;
+        SetWindowTextW(inputBox, L"");
+        SetWindowTextW(actionButton, L"SURPRISE MODE");
+        ShowWindow(inputBox, SW_SHOW);
+        ShowWindow(actionButton, SW_SHOW);
+        ShowWindow(addButton, SW_SHOW);
+        ShowWindow(removeButton, SW_HIDE);
+        clearResults();
+        setStatus(L"SURPRISE MODE  |  ENTER A NUMBER TO GET A SURPRISE FILM");
+    }
 
     void showWatchlistView()
     {
@@ -227,6 +256,23 @@ namespace
 
         showMovies(topMovies);
         setStatus(L"RECOMMENDATIONS READY  |  SELECT A MOVIE FOR DETAILS");
+    }
+    void runSurprise() {
+        try {
+            unsigned int seedling = stoi(getInputText());
+            Movie result = surpriseTime(seedling);
+            if (result.title == "FAIL") {
+                showMovies({});
+                setStatus(L"SURPRISE COMPLETE  |  MOVIE NOT FOUND");
+            }
+            showMovies({result});
+            setStatus(L"SURPRISE COMPLETE  |  1 MOVIE FOUND");
+        }
+        catch (exception& e) {
+            showMovies({});
+            setStatus(L"SURPRISE COMPLETE  |  MOVIE NOT FOUND");
+        }
+
     }
 
     void runSearch()
@@ -398,6 +444,7 @@ namespace
         addButton = makeButton(window, L"ADD TO WATCHLIST", ID_ADD, 850, 530, 170, 45);
         removeButton = makeButton(window, L"REMOVE", ID_REMOVE, 850, 585, 170, 45);
         ShowWindow(removeButton, SW_HIDE);
+        surpriseButton = makeButton(window,L"SURPRISE ME", ID_SURPRISE, 35, 365, 190, 48  );
 
         statusLabel = CreateWindowW(L"STATIC",
                                     L"SYSTEM READY  |  ENTER GENRES SEPARATED BY SPACES",
@@ -451,14 +498,18 @@ namespace
                 else if (id == ID_SEARCH) showSearchView();
                 else if (id == ID_WATCHLIST) showWatchlistView();
                 else if (id == ID_PERFORMANCE) showPerformanceView();
+                else if (id == ID_SURPRISE) showSurpriseView();
                 else if (id == ID_ACTION && currentMode == ViewMode::Recommend)
                     runRecommendation();
                 else if (id == ID_ACTION && currentMode == ViewMode::Search)
                     runSearch();
+                else if (id == ID_ACTION && currentMode == ViewMode::SurpriseMe)
+                    runSurprise();
                 else if (id == ID_RESULTS && HIWORD(wParam) == LBN_SELCHANGE)
                     showSelectedDetails();
                 else if (id == ID_ADD) addSelectedMovie();
                 else if (id == ID_REMOVE) removeSelectedMovie();
+
                 return 0;
             }
 
@@ -517,7 +568,7 @@ namespace
     }
 }
 
-int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int showCommand)
+int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int showCommand)
 {
     SetProcessDPIAware();
     walnutBrush = CreateSolidBrush(WALNUT);
