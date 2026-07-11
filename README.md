@@ -45,6 +45,19 @@ MovieLens does not provide streaming expiration dates. Memento generates demonst
 
 ## Build on Windows
 
+### Simplest GUI setup
+
+For a new Windows computer:
+
+1. Install [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/).
+2. In Visual Studio Installer, select **Desktop development with C++** and **CMake tools for Windows**.
+3. Clone or download this repository.
+4. Double-click `run_gui.bat` in the repository folder.
+
+The launcher finds Visual Studio, configures CMake, builds `MementoGUI`, and starts it with the correct working directory. No additional GUI framework is required because Memento uses the native Win32 API.
+
+### Manual Windows build
+
 Open **Developer PowerShell for Visual Studio**, move to the repository root, and run:
 
 ```powershell
