@@ -7,20 +7,9 @@
 #include "Recommendation.h"
 #include "Performance.h"
 #include "Watchlist.h"
+#include "variousSearches.h"
 using namespace std;
 
-// search the unsorted dataset directly without copying temporary vectors
-Movie searchForMovie(const vector<Movie>& movies, const string& searchTitle) {
-    for (const Movie& movie : movies) {
-        if (movie.title == searchTitle) {
-            return movie;
-        }
-    }
-
-    Movie temp;
-    temp.title = "FAIL";
-    return temp;
-}
 
 // reuse the same validated genre input for recommendations and benchmarks
 vector<string> getFavoriteGenres()
@@ -152,29 +141,96 @@ int main()
         }
         else if (menuChoice == "2")
         {
-            string movieTitle;
+            string searchOption;
+            cout<< "Select a search option:" << endl;
+            cout<< "-----------------------"<<endl;
+            cout<< "A. Search by Title"<<endl;
+            cout<< "B. Search by Genre"<<endl;
+            cout<< "C. Search by Year"<<endl;
+            cout<< "D. Search by Rating"<<endl;
+            cout<< "E. Cancel Search"<<endl;
+            cout<<endl;
+            cout<<"Search option: ";
+            getline(cin,searchOption);
+            vector<Movie> ratingsort = mergeSortByRatingNotReccomendation(movies);
+            if (searchOption == "A") {
+                string movieTitle;
 
-            cout << "Enter a movie title to search." << endl;
-            cout << "Please use the format: Title (year)" << endl;
-            cout << "Movie title: ";
+                cout << "Enter a movie title to search." << endl;
+                cout << "Please use the format: Title (year)" << endl;
+                cout << "Movie title: ";
 
-            getline(cin, movieTitle);
+                getline(cin, movieTitle);
 
-            Movie finder = searchForMovie(movies, movieTitle);
+                Movie finder = searchForMovie(movies, movieTitle);
 
-            if (finder.title == "FAIL")
-            {
-                cout << "Sorry! We couldn't find that movie! :(" << endl;
+                if (finder.title == "FAIL")
+                {
+                    cout << "Sorry! We couldn't find that movie! :(" << endl;
+                }
+                else
+                {
+                    cout << endl;
+                    cout << finder.title << endl;
+                    cout << "Genres: " << finder.genres << endl;
+                    cout << "Rating: " << finder.averageRating << endl;
+                    cout << "Days Until Expiration: " << finder.daysUntilExpiration << endl;
+                    cout << endl;
+                }
             }
-            else
-            {
-                cout << endl;
-                cout << finder.title << endl;
-                cout << "Genres: " << finder.genres << endl;
-                cout << "Rating: " << finder.averageRating << endl;
-                cout << "Days Until Expiration: " << finder.daysUntilExpiration << endl;
-                cout << endl;
+            if (searchOption == "B") {
+                string searchGenre;
+
+                cout << "Enter a single genre to search." << endl;
+
+                cout << "Genre: ";
+                getline(cin, searchGenre);
+
+
+                vector<Movie> matches = searchByGenre(ratingsort, searchGenre);
+                if (matches.size() == 0) {
+                    cout<<"It looks like we couldn't find any matches. :("<<endl;
+                }
+                else {
+                    cout<<"Here are the top 10 genre matches"<<endl;
+                    cout<<"---------------------------------"<<endl;
+                    for (int i = 0; i < matches.size(); i++) {
+                        cout << endl;
+                        cout << matches[i].title << endl;
+                        cout << "Genres: " << matches[i].genres << endl;
+                        cout << "Rating: " << matches[i].averageRating << endl;
+                        cout << "Days Until Expiration: " << matches[i].daysUntilExpiration << endl;
+                        cout << endl;
+                    }
+                }
+
             }
+            if (searchOption == "D") {
+                string searchRating;
+
+                cout << "Enter a rating to search." << endl;
+
+                cout << "Rating: ";
+                getline(cin, searchRating);
+
+                vector<Movie> matches = searchByRating(ratingsort, searchRating);
+                if (matches.size() == 0) {
+                    cout<<"It looks like we couldn't find any matches. :("<<endl;
+                }
+                else {
+                    cout<<"Here are the top 10 matches by audience rating"<<endl;
+                    cout<<"----------------------------------------------"<<endl;
+                    for (int i = 0; i < matches.size(); i++) {
+                        cout << endl;
+                        cout << matches[i].title << endl;
+                        cout << "Genres: " << matches[i].genres << endl;
+                        cout << "Rating: " << matches[i].averageRating << endl;
+                        cout << "Days Until Expiration: " << matches[i].daysUntilExpiration << endl;
+                        cout << endl;
+                    }
+                }
+            }
+
         }
         else if (menuChoice == "3")
         {

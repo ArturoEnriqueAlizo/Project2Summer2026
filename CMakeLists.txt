@@ -12,7 +12,9 @@ add_executable(Project2Summer2026Final main.cpp
         Performance.h
         Watchlist.cpp
         Watchlist.h
-        Movie.h)
+        Movie.h
+        variousSearches.cpp
+        variousSearches.h)
 
 enable_testing()
 
@@ -38,5 +40,7 @@ if(WIN32)
             Performance.h
             Watchlist.cpp
             Watchlist.h
-            Movie.h)
+            Movie.h
+            variousSearches.cpp
+            variousSearches.h)
 endif()
