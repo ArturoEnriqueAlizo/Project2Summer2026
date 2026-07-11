@@ -20,4 +20,7 @@ vector<Movie> searchByGenre(const vector<Movie>& movies, string searchGenre);
 
 // Search by rating, returns vector of top 10 rated films in any category.
 // ex: search for 5-star films, returns top 10 between 5 and 4-star ratings.
-vector<Movie> searchByRating(const vector<Movie>& movies, string searchGenre);
+vector<Movie> searchByRating(const vector<Movie>& movies, double searchRating);
+
+// Search for a movie by year made, returns list of top 10 movies from that year.
+vector<Movie> searchByYear(const vector<Movie>& movies, const string& searchYear);

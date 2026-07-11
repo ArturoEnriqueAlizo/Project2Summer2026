@@ -60,9 +60,9 @@ vector<Movie> mergeSortByRatingNotReccomendation(vector<Movie>& movies) {
     vector<Movie> righty(movies.begin() + stuckinthemiddle, movies.end());
 
 
-    vector<Movie> leftsplit = mergeSort(lefty);
+    vector<Movie> leftsplit = mergeSortByRatingNotReccomendation(lefty);
 
-    vector<Movie> rightsplit = mergeSort(righty);
+    vector<Movie> rightsplit = mergeSortByRatingNotReccomendation(righty);
 
     // See merginmakesmefeelgood for more info.
     vector<Movie> finalsort = merginmakesmefeelgoods(leftsplit, rightsplit);
@@ -140,4 +140,30 @@ vector<Movie> searchByRating(const vector<Movie>& movies, double searchRating) {
     }
 
     return ratings;
+}
+vector<Movie> searchByYear(const vector<Movie>& movies, const string& searchYear) {
+    vector<Movie> years;
+
+    int counter = 0;
+
+    for (const Movie& movie : movies) {
+
+        string year = movie.title.substr(movie.title.length()-6);
+
+        if (year == searchYear) {
+
+            years.push_back(movie);
+
+            counter++;
+
+        }
+        if (counter==10) {
+
+            return years;
+        }
+    }
+
+    return years;
+
+
 }

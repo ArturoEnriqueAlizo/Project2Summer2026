@@ -205,6 +205,35 @@ int main()
                 }
 
             }
+            if (searchOption == "C") {
+                string searchYear;
+
+                cout << "Enter a year to search." << endl;
+                cout<< "Please use the format: (year)" << endl;
+
+                cout << "Year: ";
+                getline(cin, searchYear);
+
+
+
+                vector<Movie> matches = searchByYear(ratingsort, searchYear);
+                if (matches.size() == 0) {
+                    cout<<"It looks like we couldn't find any matches. :("<<endl;
+                }
+                else {
+                    vector<Movie> matchess = mergeSortByRatingNotReccomendation(matches);
+                    cout<<"Here are the top 10 matches by audience rating"<<endl;
+                    cout<<"----------------------------------------------"<<endl;
+                    for (int i = 0; i < matchess.size(); i++) {
+                        cout << endl;
+                        cout << matchess[i].title << endl;
+                        cout << "Genres: " << matchess[i].genres << endl;
+                        cout << "Rating: " << matchess[i].averageRating << endl;
+                        cout << "Days Until Expiration: " << matchess[i].daysUntilExpiration << endl;
+                        cout << endl;
+                    }
+                }
+            }
             if (searchOption == "D") {
                 string searchRating;
 
@@ -212,23 +241,29 @@ int main()
 
                 cout << "Rating: ";
                 getline(cin, searchRating);
+                double searchRatings = stod(searchRating);
 
-                vector<Movie> matches = searchByRating(ratingsort, searchRating);
+
+                vector<Movie> matches = searchByRating(ratingsort, searchRatings);
                 if (matches.size() == 0) {
                     cout<<"It looks like we couldn't find any matches. :("<<endl;
                 }
                 else {
+                    vector<Movie> matchess = mergeSortByRatingNotReccomendation(matches);
                     cout<<"Here are the top 10 matches by audience rating"<<endl;
                     cout<<"----------------------------------------------"<<endl;
-                    for (int i = 0; i < matches.size(); i++) {
+                    for (int i = 0; i < matchess.size(); i++) {
                         cout << endl;
-                        cout << matches[i].title << endl;
-                        cout << "Genres: " << matches[i].genres << endl;
-                        cout << "Rating: " << matches[i].averageRating << endl;
-                        cout << "Days Until Expiration: " << matches[i].daysUntilExpiration << endl;
+                        cout << matchess[i].title << endl;
+                        cout << "Genres: " << matchess[i].genres << endl;
+                        cout << "Rating: " << matchess[i].averageRating << endl;
+                        cout << "Days Until Expiration: " << matchess[i].daysUntilExpiration << endl;
                         cout << endl;
                     }
                 }
+            }
+            else {
+                menuChoice = "8";
             }
 
         }
