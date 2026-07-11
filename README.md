@@ -21,7 +21,7 @@ Memento is a movie recommendation and expiration alert system built in C++. It u
 - Automated tests for scoring, sorting, benchmarking, and watchlist behavior
 - Console interface on all supported platforms
 - Native retro-futurist GUI on Windows
-
+-Surprise me feature that selects a random movie
 ## Requirements
 
 - CMake 3.16 or newer
@@ -89,7 +89,7 @@ ctest --test-dir build -C Release --output-on-failure
 
 ## Console Menu
 
-The console provides seven options:
+The console provides eight options:
 
 1. Get movie recommendations
 2. Search for a specific movie
@@ -97,7 +97,8 @@ The console provides seven options:
 4. Add a movie to the watchlist
 5. View the watchlist
 6. Remove a movie from the watchlist
-7. Exit
+7. Get a random movie recommendation with SurpriseMe
+8.Exit
 
 Enter genres separated by spaces, e.g. `Action Comedy`. Exact-title searches must include the year in the MovieLens format, e.g. `Toy Story (1995)`.
 
